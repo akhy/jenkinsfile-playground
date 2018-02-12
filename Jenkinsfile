@@ -1,19 +1,23 @@
 
 
-node('ci') {
-  checkout scm
-  sh 'ls -la'
-}
-
-myTasks = ['hello', 'world']
-tasks = [:]
-for (i = 0; i < myTasks.length; i++) {
-  def task = myTasks[i]
-  tasks[task] = {
-    node('ci') {
-      echo tasks
-      sh 'ls -la'
-    }
+stage('init') {
+  node('ci') {
+    checkout scm
+    sh 'ls -la'
   }
 }
-parallel tasks
+
+stage('test') {
+  myTasks = ['hello', 'world']
+  tasks = [:]
+  for (i = 0; i < myTasks.length; i++) {
+    def task = myTasks[i]
+    tasks[task] = {
+      node('ci') {
+        echo tasks
+        sh 'ls -la'
+      }
+    }
+  }
+  parallel tasks
+}
