@@ -1,5 +1,7 @@
 
 
+def myTasks = ['hello', 'world']
+
 stage('init') {
   node('ci') {
     checkout scm
@@ -8,7 +10,6 @@ stage('init') {
 }
 
 stage('test') {
-  myTasks = ['hello', 'world']
   tasks = [:]
   for (i = 0; i < myTasks.length; i++) {
     def task = myTasks[i]
